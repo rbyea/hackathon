@@ -7,6 +7,10 @@ export class PhotosUnsplash extends Module {
     const PHOTOS_URL = 'https://api.unsplash.com/search/photos?page=1&query='
     const KEY_URL = '&client_id=rWujnf1z02k4UKQzYZqxLD-lBpn5MHof6X8td3U2O-w'
 
+    const loader = document.createElement('div')
+    loader.className = "lds-spinner"
+    loader.innerHTML = `<div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>`
+    
     const container = document.createElement('div')
     container.className = 'container'
     document.querySelector('body').append(container)
@@ -39,6 +43,7 @@ export class PhotosUnsplash extends Module {
     const getPhotos = async (search) => {
         arrPhoto = []
         try {
+            document.querySelector('body').append(loader)
             const photos = await fetch(`${PHOTOS_URL}${search}${KEY_URL}`)
             const photosResp = await photos.json()
             const photoResult = photosResp.results
@@ -65,6 +70,8 @@ export class PhotosUnsplash extends Module {
             containerImg.innerHTML = renderPhoto.join('')
         } catch (e) {
             console.error(e)
+        } finally {
+          loader.remove()
         }
     }
 
