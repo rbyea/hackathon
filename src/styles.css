@@ -40,3 +40,9 @@ body {
 .menu .menu-item:hover {
     background: #343434;
 }
+.block_random-messages{
+    font-size: 30px;
+    width: 300px;
+    height: 100px;
+
+}
