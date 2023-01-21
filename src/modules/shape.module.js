@@ -70,9 +70,11 @@ export class ShapeModule extends Module {
                     ctx.arc(this.x, this.y, this.rx, 0, 2 * Math.PI, false);
                     //Закрываю путь. Заканчиваю процесс рисования
                     ctx.closePath();
-
+                    this.circleGradient = ctx.createLinearGradient(this.x, this.y, this.x+SettingsShape.rx, this.y);
+                    this.circleGradient.addColorStop(0, getRandomColor());
+                    this.circleGradient.addColorStop(1, getRandomColor());
                     //Задаю цвет
-                    ctx.fillStyle = this.gradient;
+                    ctx.fillStyle = this.circleGradient;
                     //Делаю заливку этим цветом
                     ctx.fill();
                     //Восстанавливаею последнее сохраненное состояние холста
@@ -84,7 +86,6 @@ export class ShapeModule extends Module {
                     ctx.rotate(this.rotate);
                     ctx.translate(-this.x - this.ww / 2, -this.y - this.ww / 3);
                     ctx.beginPath();
-                    //void ctx.ellipse(x, y, radiusX, radiusY, rotation, startAngle, endAngle [, anticlockwise]);
                     ctx.ellipse(this.x, this.y, this.rx, this.ry, Math.PI / 4, 0, 2 * Math.PI);
                     ctx.closePath();
                     ctx.fillStyle = this.gradient;
