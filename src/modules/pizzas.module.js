@@ -17,8 +17,6 @@ export class PizzasModule extends Module {
     btnFilterDesc.innerHTML = '<span>Сортировка пицц по цене -</span>'
     btnFilterAsc.innerHTML = '<span>Сортировка пицц по цене +</span>'
     containerPizzas.className = "pizzas-container"
-    btnFilterDesc.append(btnSpanDesc)
-    btnFilterAsc.append(btnSpanAsc)
 
     body.append(btnFilterDesc)
     body.append(btnFilterAsc)
@@ -28,7 +26,7 @@ export class PizzasModule extends Module {
     const PIZZAS_URL = 'https://62c1d18c2af60be89ece4372.mockapi.io/items'
     let btnInit = 0
 
-    btnSpanDesc.addEventListener('click', () => {
+    btnFilterDesc.addEventListener('click', () => {
       btnInit = 1
       getItems()
     }) 
