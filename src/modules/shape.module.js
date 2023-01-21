@@ -4,11 +4,10 @@ import '../stylesShape.css'
 //Импортирую функции случайного числа и цвета
 import {random, getRandomColor} from '@/utils'
 //Импортирую константы для настроек количества и размеров фигур
-import  {SettingsShape} from '@/core/constants/settingsShape'
+import {SettingsShape} from '@/core/constants/settingsShape'
 
 export class ShapeModule extends Module {
     trigger() {
-
 
         //Создаю canvas и добавляю в body
         const canvas = document.createElement('canvas');
@@ -56,6 +55,10 @@ export class ShapeModule extends Module {
             //Случайный цвет
             this.color = getRandomColor();
 
+            this.gradient = ctx.createLinearGradient(0, 0, w, h);
+            this.gradient.addColorStop(0, getRandomColor());
+            this.gradient.addColorStop(1, getRandomColor());
+
             this.draw = () => {
                 if (shape === 'circle') {
                     //Сохраняю все состояние холста, помещая текущее состояние в стек
@@ -67,7 +70,7 @@ export class ShapeModule extends Module {
                     //Закрываю путь. Заканчиваю процесс рисования
                     ctx.closePath();
                     //Задаю цвет
-                    ctx.fillStyle = this.color;
+                    ctx.fillStyle = this.gradient;
                     //Делаю заливку этим цветом
                     ctx.fill();
                     //Восстанавливаею последнее сохраненное состояние холста
@@ -80,7 +83,7 @@ export class ShapeModule extends Module {
                     ctx.rotate(this.rotate);
                     ctx.translate(-this.x - this.ww / 2, -this.y - this.ww / 2);
                     //Рисую квадрат
-                    ctx.fillStyle = this.color;
+                    ctx.fillStyle = this.gradient;
                     ctx.fillRect(this.x, this.y, this.ww, this.ww);
                     ctx.restore();
                 }
@@ -94,7 +97,7 @@ export class ShapeModule extends Module {
                     ctx.lineTo(this.x, this.y + this.ww);
                     ctx.lineTo(this.x + this.ww, this.y);
                     ctx.closePath();
-                    ctx.fillStyle = this.color;
+                    ctx.fillStyle = this.gradient;
                     ctx.fill();
                     ctx.restore();
                 }
@@ -132,6 +135,7 @@ export class ShapeModule extends Module {
                 cancelAnimationFrame(callbackAnimate);
                 clearCanvas();
                 canvas.remove();
+
             })
         }
 
@@ -147,6 +151,7 @@ export class ShapeModule extends Module {
             }
             requestAnimationFrame(animate);
         }
+
         //Запуск модуля
         init();
     }
