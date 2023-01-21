@@ -44,9 +44,9 @@ export class ShapeModule extends Module {
             //x,y Координаты исходной точки
             this.x = random(0, w);
             this.y = random(0, h);
-            //Координаты для сдвига фигуры. Пришлось вспомнить геомертию.
-            this.vx = Math.cos(random(0, 360)) * random(1, 3);
-            this.vy = Math.sin(random(0, 360)) * random(1, 3);
+            //Координаты для сдвига фигуры. Скорость двихения по x,y Пришлось вспомнить геомертию.
+            this.vx = SettingsShape.vx;
+            this.vy = SettingsShape.vy;
             //Радиус для круга
             this.r = SettingsShape.r; //Если увеличить - круги будут больше
             //Сторона квардрата и треугольника
@@ -118,10 +118,12 @@ export class ShapeModule extends Module {
                 shapes[i].x < 0 ? shapes[i].x = 0 : shapes[i].x;
                 shapes[i].y < 0 ? shapes[i].y = 0 : shapes[i].y;
 
-                shapes[i].rotate += 0.05;
+                //Скорость вращения вокруг своей оси
+                shapes[i].rotate += SettingsShape.rotation;
                 shapes[i].draw();
             }
             //Запускаю анимацию и сохраняю возвращаемое значение, чтобы потом остановить анимацию
+            //Рекурсивный вызов. Картинка будет обновляться, с частотой, равной частоте экрана
             const callbackAnimate = requestAnimationFrame(animate);
 
             //Удаляю canvas по нажатию любой кнопки мыши
