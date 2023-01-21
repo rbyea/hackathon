@@ -1,6 +1,6 @@
-import { async } from "regenerator-runtime"
 import { Module } from "../core/module"
 import '../pizzas.css'
+import '../loader.css'
 
 export class PizzasModule extends Module {
   trigger() {
@@ -8,16 +8,14 @@ export class PizzasModule extends Module {
     const containerPizzas = document.createElement('div')
     const btnFilterDesc = document.createElement('button')
     const btnFilterAsc = document.createElement('button')
-    const btnSpanDesc = document.createElement('span')
-    const btnSpanAsc = document.createElement('span')
     const loader = document.createElement('div')
 
     loader.className = "lds-spinner"
     loader.innerHTML = `<div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>`
     btnFilterAsc.className = "pizzas-filter"
     btnFilterDesc.className = "pizzas-filter"
-    btnSpanDesc.innerHTML = 'Сортировка пицц по цене -'
-    btnSpanAsc.innerHTML = 'Сортировка пицц по цене +'
+    btnFilterDesc.innerHTML = '<span>Сортировка пицц по цене -</span>'
+    btnFilterAsc.innerHTML = '<span>Сортировка пицц по цене +</span>'
     containerPizzas.className = "pizzas-container"
     btnFilterDesc.append(btnSpanDesc)
     btnFilterAsc.append(btnSpanAsc)
