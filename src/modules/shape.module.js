@@ -46,8 +46,9 @@ export class ShapeModule extends Module {
             //Координаты для сдвига фигуры. Скорость двихения по x,y Пришлось вспомнить геомертию.
             this.vx = SettingsShape.vx;
             this.vy = SettingsShape.vy;
-            //Радиус для круга
-            this.r = SettingsShape.r; //Если увеличить - круги будут больше
+            //Радиус для круга и x радиус элипса
+            this.rx = SettingsShape.rx; //Если увеличить - круги будут больше
+            this.ry = SettingsShape.ry;
             //Сторона квардрата и треугольника
             this.ww = SettingsShape.ww; //Если увеличить - фигуры будут больше
             //Параметры поворота фигуры. Нужно для анимации
@@ -66,14 +67,28 @@ export class ShapeModule extends Module {
                     //Создаю новый путь. Нужно для начала процесса рисования.
                     ctx.beginPath();
                     //Рисую круг
-                    ctx.arc(this.x, this.y, this.r, 0, 2 * Math.PI, false);
+                    ctx.arc(this.x, this.y, this.rx, 0, 2 * Math.PI, false);
                     //Закрываю путь. Заканчиваю процесс рисования
                     ctx.closePath();
+
                     //Задаю цвет
                     ctx.fillStyle = this.gradient;
                     //Делаю заливку этим цветом
                     ctx.fill();
                     //Восстанавливаею последнее сохраненное состояние холста
+                    ctx.restore();
+                }
+                if (shape === 'ellipse') {
+                    ctx.save();
+                    ctx.translate(this.x + this.ww / 2, this.y + this.ww / 3);
+                    ctx.rotate(this.rotate);
+                    ctx.translate(-this.x - this.ww / 2, -this.y - this.ww / 3);
+                    ctx.beginPath();
+                    //void ctx.ellipse(x, y, radiusX, radiusY, rotation, startAngle, endAngle [, anticlockwise]);
+                    ctx.ellipse(this.x, this.y, this.rx, this.ry, Math.PI / 4, 0, 2 * Math.PI);
+                    ctx.closePath();
+                    ctx.fillStyle = this.gradient;
+                    ctx.fill();
                     ctx.restore();
                 }
                 if (shape === 'square') {
@@ -143,6 +158,8 @@ export class ShapeModule extends Module {
             //Создаю элементы и пушу в массив
             for (let i = 0; i < shapesNum; i++) {
                 let shape = new CreateShapes('circle');
+                shapes.push(shape);
+                shape = new CreateShapes('ellipse');
                 shapes.push(shape);
                 shape = new CreateShapes('triangle');
                 shapes.push(shape);
