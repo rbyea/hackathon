@@ -36,19 +36,17 @@ export class TimerModule extends Module {
       timerWindow.append(h1Timer)
 
       const timeInput = `<input id="time" type="time" name="time" step="1">`
-
       timerWindow.insertAdjacentHTML('beforeend', timeInput)
 
       const timerStartBtn = document.createElement('button')
       timerStartBtn.classList.add('click-btn', 'timer-start-btn')
       timerStartBtn.textContent = 'Старт'
-
       timerWindow.append(timerStartBtn)
 
       const timeInputHTML = document.querySelector('#time')
       timerStartBtn.addEventListener('click', () => {
         time = timeInputHTML.value.split(':')
-        if (time.length !== 3) {
+        if (time.length !== 3 || timeInputHTML.value === '00:00:00') {
           error()
         } else {
           showCounterScreen()
@@ -76,13 +74,9 @@ export class TimerModule extends Module {
 
       timerStartBtn.remove()
 
-      time = time.map(el => Number(el))
-
-      const hr = time[0]
-      const min = time[1]
-      const sec = time[2]
-
-      const timeInSec = hr * 3600 + min * 60 + sec
+      time = time.map(el => parseInt(el))
+      const [hr, min, sec] = time
+      let timeInSec = hr * 3600 + min * 60 + sec
 
       timer(timeInSec)
     }
@@ -116,8 +110,8 @@ export class TimerModule extends Module {
     }
 
     function finish() {
-      const h1Timer = document.querySelector('.h1-timer')
       const timerWindow = document.querySelector('.timer-window')
+      const h1Timer = document.querySelector('.h1-timer')
 
       h1Timer.innerHTML = `Время вышло.`
 
