@@ -10,7 +10,7 @@ export class PhotosUnsplash extends Module {
     const loader = document.createElement('div')
     loader.className = "lds-spinner"
     loader.innerHTML = `<div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>`
-    
+
     const container = document.createElement('div')
     container.className = 'container'
     document.querySelector('body').append(container)
@@ -38,11 +38,20 @@ export class PhotosUnsplash extends Module {
     containerButtons.append(button2)
     const containerImg = document.createElement('div')
     containerImg.className = 'container-img'
+
+    const imgLength = document.createElement('div')
+    imgLength.className = 'img-length-error'
+    imgLength.innerHTML = 'Ничего не найдено!'
     let arrPhoto = []
 
     const getPhotos = async (search) => {
         arrPhoto = []
         try {
+
+            if(imgLength) {
+              imgLength.remove()
+            }
+
             document.querySelector('body').append(loader)
             const photos = await fetch(`${PHOTOS_URL}${search}${KEY_URL}`)
             const photosResp = await photos.json()
@@ -53,13 +62,17 @@ export class PhotosUnsplash extends Module {
                 container.append(containerImg)
             }
 
-            photoResult.forEach(el => {
+            if(photoResult.length === 0) {
+              container.append(imgLength)
+            } else {
+              photoResult.forEach(el => {
                 for (const elKey in el.urls) {
                     if(elKey === 'regular') {
                         arrPhoto.push(el.urls[elKey])
                     }
                 }
-            })
+              })
+            }
 
             const renderPhoto = arrPhoto.map(el => {
                 return (
