@@ -40,9 +40,30 @@ body {
 .menu .menu-item:hover {
     background: #343434;
 }
-.block_random-messages{
-    font-size: 30px;
-    width: 300px;
-    height: 100px;
 
+.block_random-messages {
+animation: moving 6s ease-out 1s infinite normal;
+}
+
+@keyframes moving {
+    10% {
+        transform: translate(60px, 0);
+    }
+    20% {
+        transform: translate(440px, 60px);
+    }
+
+    40% {
+        transform: translate(240px, 0);
+    }
+    50% {
+        transform: translate(300px, 60px);
+    }
+    70% {
+        transform: translate(60px, 320px);
+    }
+
+    90% {
+        transform: translate(140px, 0);
+    }
 }
