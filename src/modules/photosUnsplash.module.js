@@ -19,12 +19,12 @@ export class PhotosUnsplash extends Module {
     input.placeholder = 'Введите любое нвазание картинки. Например: котик'
 
     const button2 = document.createElement('button')
-    button2.className = 'delete'
+    button2.className = 'delete btn-photo'
     button2.innerHTML = '<span>Удалить</span>'
     button2.type = 'submit'
 
     const button = document.createElement('button')
-    button.className = 'button'
+    button.className = 'button btn-photo'
     button.innerHTML = '<span>Вывести</span>'
 
     const form = document.createElement('form')

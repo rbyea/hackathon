@@ -7,7 +7,7 @@ input {
   margin-bottom: 10px;
 }
 
-button {
+.btn-photo {
   margin-right: 10px;
   font-family: sans-serif;
   padding: 10px;
@@ -23,16 +23,16 @@ button {
   flex: 1;
 }
 
-button:last-child {
+.btn-photo:last-child {
   margin-right: 0;
 }
 
-button span {
+.btn-photo span {
   position: relative;
   z-index: 1;
 }
 
-button:before {
+.btn-photo:before {
   content: '';
   position: absolute;
   left: 0;
@@ -44,11 +44,11 @@ button:before {
   background-color: #fe5f1e;
 }
 
-button:hover::before {
+.btn-photo:hover::before {
   transform: translateY(0);
 }
 
-button:hover {
+.btn-photo:hover {
   color: #fff;
 }
 
