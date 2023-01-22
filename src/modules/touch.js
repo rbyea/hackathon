@@ -24,6 +24,7 @@ export class Touch extends Module {
             const container = document.createElement('div')
             container.classList = 'touch'
             const button = document.createElement('button')
+            button.className = 'touchbtn'
             const i = document.createElement('i')
             i.ariaHidden = 'true'
             button.append(i)
@@ -53,9 +54,10 @@ export class Touch extends Module {
 
                     }
                 }
-                document.body.addEventListener("contextmenu", (event) => {
-                    container.remove()
-                })
+            })
+
+            document.body.addEventListener("contextmenu", (event) => {
+                container.remove()
             })
 
             const buttonAnimate = () => {

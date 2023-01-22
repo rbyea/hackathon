@@ -1,212 +1,256 @@
 :root {
-    --base: #de55f3;
-    --lighten: #fa62ff;
-    --darken: #9d48cf;
-    --white: #c8deeb;
-    --shadow: 6px 6px 12px var(--darken), -6px -6px 12px var(--lighten);
-    --inset: inset 6px 6px 12px var(--darken), inset -6px -6px 12px var(--lighten);
+  --base: #de55f3;
+  --lighten: #fa62ff;
+  --darken: #9d48cf;
+  --white: #c8deeb;
+  --shadow: 6px 6px 12px var(--darken), -6px -6px 12px var(--lighten);
+  --inset: inset 6px 6px 12px var(--darken), inset -6px -6px 12px var(--lighten);
 }
 
 
 .touch {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    right: 0;
-    left: 0;
-    bottom: 0;
-    margin: auto;
-    background-color: var(--base);
-    overflow: hidden;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  margin: auto;
+  background-color: var(--base);
+  overflow: hidden;
 }
 
-button {
-    position: absolute;
-    top: 0;
-    right: 0;
-    left: 0;
-    bottom: 0;
-    margin: auto;
-    width: 40px;
-    height: 40px;
-    background-color: var(--base);
-    color: var(--white);
-    border: none;
-    border-radius: 50%;
-    box-shadow: var(--shadow);
-    cursor: pointer;
-    z-index: 10;
+.touchbtn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  margin: auto;
+  width: 40px;
+  height: 40px;
+  background-color: var(--base);
+  color: var(--white);
+  border: none;
+  border-radius: 50%;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  z-index: 10;
 }
 
 svg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    margin: auto;
-    transform: translate(-50%, -50%);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  transform: translate(-50%, -50%);
 }
 
 button.clicked {
-    animation: shadowFadeOut 200ms ease-out forwards,
+  animation: shadowFadeOut 200ms ease-out forwards,
     shadowFadeIn 200ms 300ms ease-in forwards;
 }
 
 button.clicked svg {
-    animation: fillFadeOut 200ms ease-out forwards,
+  animation: fillFadeOut 200ms ease-out forwards,
     fillFadeIn 200ms 300ms ease-in forwards;
 }
 
 .wave {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    margin: auto;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    box-shadow: 20px 20px 60px var(--darken), -20px -20px 60px var(--lighten);
-    opacity: 0;
-    animation: fadeIn 400ms ease-out forwards, outside_grow 5s ease-out,
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  box-shadow: 20px 20px 60px var(--darken), -20px -20px 60px var(--lighten);
+  opacity: 0;
+  animation: fadeIn 400ms ease-out forwards, outside_grow 5s ease-out,
     fadeOut 3s 2s forwards;
-    z-index: 1;
+  z-index: 1;
 }
 
 .wave::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 0px;
-    height: 0px;
-    border-radius: 50%;
-    box-shadow: inset 20px 20px 60px var(--darken), inset -20px -20px 60px var(--lighten);
-    animation: inside_grow 5s ease-out;
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 0px;
+  height: 0px;
+  border-radius: 50%;
+  box-shadow: inset 20px 20px 60px var(--darken), inset -20px -20px 60px var(--lighten);
+  animation: inside_grow 5s ease-out;
 
 }
 
 .fa-bolt {
-    font-size: 23px;
+  font-size: 23px;
 }
 
 /*эфект молнии*/
 
-.flashit{
-    -webkit-animation: flash ease-out 7s infinite;
-    -moz-animation: flash ease-out 7s infinite;
-    animation: flash ease-out 7s infinite;
-    animation-delay: 2s;
-    background: url("https://www.kindpng.com/picc/m/310-3100804_trollface-png-transparent-images-png-download.png") no-repeat center;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
+.flashit {
+  -webkit-animation: flash ease-out 7s infinite;
+  -moz-animation: flash ease-out 7s infinite;
+  animation: flash ease-out 7s infinite;
+  animation-delay: 2s;
+  background: url("https://www.kindpng.com/picc/m/310-3100804_trollface-png-transparent-images-png-download.png") no-repeat center;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 
 }
 
 @-webkit-keyframes flash {
-     from { opacity: 100; }
-     92% { opacity: 100; }
-     93% { opacity: 0.6; }
-     94% { opacity: 100; }
-     96% { opacity: 0.9; }
-     to { opacity: 0; }
- }
+  from {
+    opacity: 100;
+  }
+
+  92% {
+    opacity: 100;
+  }
+
+  93% {
+    opacity: 0.6;
+  }
+
+  94% {
+    opacity: 100;
+  }
+
+  96% {
+    opacity: 0.9;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
 
 @keyframes flash {
-    from { opacity: 100; }
-    92% { opacity: 100; }
-    93% { opacity: 0.6; }
-    94% { opacity: 0.2; }
-    96% { opacity: 1; }
-    to { opacity: 0; }
+  from {
+    opacity: 100;
+  }
+
+  92% {
+    opacity: 100;
+  }
+
+  93% {
+    opacity: 0.6;
+  }
+
+  94% {
+    opacity: 0.2;
+  }
+
+  96% {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
 }
 
 
 /** анимация ширины и длины волн */
 @keyframes outside_grow {
-    from {
-        width: 20px;
-        height: 20px;
-    }
-    to {
-        width: 500px;
-        height: 500px;
-    }
+  from {
+    width: 20px;
+    height: 20px;
+  }
+
+  to {
+    width: 500px;
+    height: 500px;
+  }
 }
 
 @keyframes inside_grow {
-    from {
-        width: 0px;
-        height: 0px;
-    }
-    to {
-        width: 480px;
-        height: 480px;
-    }
+  from {
+    width: 0px;
+    height: 0px;
+  }
+
+  to {
+    width: 480px;
+    height: 480px;
+  }
 }
 
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes fadeOut {
-    from {
-        opacity: 1;
-    }
-    to {
-        opacity: 0;
-    }
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
 }
 
 @keyframes shadowFadeIn {
-    0% {
-        box-shadow: var(--inset);
-    }
-    50% {
-        box-shadow: none;
-    }
-    100% {
-        box-shadow: var(--shadow);
-    }
+  0% {
+    box-shadow: var(--inset);
+  }
+
+  50% {
+    box-shadow: none;
+  }
+
+  100% {
+    box-shadow: var(--shadow);
+  }
 }
 
 @keyframes shadowFadeOut {
-    0% {
-        box-shadow: var(--shadow);
-    }
-    50% {
-        box-shadow: none;
-    }
-    100% {
-        box-shadow: var(--inset);
-    }
+  0% {
+    box-shadow: var(--shadow);
+  }
+
+  50% {
+    box-shadow: none;
+  }
+
+  100% {
+    box-shadow: var(--inset);
+  }
 }
 
 @keyframes fillFadeOut {
-    from {
-        fill: none;
-    }
-    to {
-        fill: currentColor;
-    }
+  from {
+    fill: none;
+  }
+
+  to {
+    fill: currentColor;
+  }
 }
 
 @keyframes fillFadeIn {
-    from {
-        fill: currentcolor;
-    }
-    to {
-        fill: none;
-    }
+  from {
+    fill: currentcolor;
+  }
+
+  to {
+    fill: none;
+  }
 }
