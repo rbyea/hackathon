@@ -42,7 +42,7 @@ body {
 }
 
 .block_random-messages {
-animation: moving 6s ease-out 1s infinite normal;
+  animation: moving 6s ease-out 1s infinite normal;
 }
 
 @keyframes moving {
