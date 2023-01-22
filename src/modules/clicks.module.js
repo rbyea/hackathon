@@ -63,6 +63,10 @@ export class ClicksModule extends Module {
         }
         showStartScreen()
       })
+
+      document.addEventListener('contextmenu', () => {
+        clicksWrapper.remove()
+      })
     }
 
     function showStartScreen() {
