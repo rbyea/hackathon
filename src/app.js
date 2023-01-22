@@ -1,7 +1,6 @@
 import './styles.css'
 
 import { ContextMenu } from './menu.js'
-
 import { BackgroundModule } from './modules/background.module'
 import { ClicksModule } from './modules/clicks.module'
 import { TimerModule } from './modules/timer.module'
@@ -10,6 +9,8 @@ import { RandomSoundModule } from './modules/random-sound.module'
 import { CustomMsg } from './modules/customMsg'
 import { PizzasModule } from './modules/pizzas.module'
 import { PhotosUnsplash } from './modules/photosUnsplash.module'
+import {Touch} from "./modules/touch";
+
 // следующие модули
 
 const backgroundModule = new BackgroundModule('background', 'Поменять цвет')
@@ -20,6 +21,8 @@ const randomSoundModule = new RandomSoundModule('sound', 'Случайный з�
 const customMsg = new CustomMsg('msg', 'Кастомное сообщение')
 const pizzasModule = new PizzasModule('pizza', 'Пиццы')
 const photosUnsplash = new PhotosUnsplash('photo', 'Поиск фотографий')
+const touch = new Touch('touch', 'не нажимай!')
+
 // следующие модули
 
 const contextMenu = new ContextMenu('.menu')
@@ -32,6 +35,7 @@ contextMenu.add(randomSoundModule)
 contextMenu.add(customMsg)
 contextMenu.add(pizzasModule)
 contextMenu.add(photosUnsplash)
+contextMenu.add(touch)
 // следующие модули
 
 document.addEventListener('contextmenu', event => {
@@ -73,6 +77,10 @@ menu.addEventListener('click', event => {
     }
     if (menuItem.dataset.type === 'photo') {
       photosUnsplash.trigger()
+      contextMenu.close()
+    }
+    if (menuItem.dataset.type === 'touch') {
+      touch.trigger()
       contextMenu.close()
     }
     // следующие модули
