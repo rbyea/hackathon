@@ -47,11 +47,7 @@ export class TimerModule extends Module {
 
       const timeInputHTML = document.querySelector('#time')
       timerStartBtn.addEventListener('click', () => {
-        time = timeInputHTML.value
-
-        console.log(time)
-        time = time.split(':').map(el => Number(el))
-        console.log(time)
+        time = timeInputHTML.value.split(':')
 
         showCounterScreen()
       })
@@ -77,53 +73,41 @@ export class TimerModule extends Module {
 
       timerStartBtn.remove()
 
+      time = time.map(el => Number(el))
+
       const hr = time[0]
       const min = time[1]
       const sec = time[2]
 
       const timeInSec = hr * 3600 + min * 60 + sec
-      console.log(timeInSec)
 
       timer(timeInSec)
-
-      // timerId = setInterval(timer, 1000)
     }
 
     function timer(timeInSec) {
-      let temp = timeInSec
-      timeInSec--
-      let h = Math.floor(temp / 3600)
-      let m = Math.floor((temp % 3600) / 60)
-      let s = Math.floor(temp - h * 3600 - m * 60)
+      timerId = setInterval(() => {
+        if (timeInSec === 1) {
+          finish()
+          clearInterval(timerId)
+        } else {
+          --timeInSec
+          let hours = parseInt((timeInSec / 3600) % 24, 10)
+          let minutes = parseInt((timeInSec / 60) % 60, 10)
+          let seconds = parseInt(timeInSec % 60, 10)
 
-      // console.log(h)
-      // console.log(m)
-      // console.log(s)
+          hours = hours < 10 ? '0' + hours : hours
+          minutes = minutes < 10 ? '0' + minutes : minutes
+          seconds = seconds < 10 ? '0' + seconds : seconds
 
-      h = checkTime(h)
-      m = checkTime(m)
-      s = checkTime(s)
+          const hoursHTML = document.querySelector('.timer__hours')
+          const minutesHTML = document.querySelector('.timer__minutes')
+          const secondsHTML = document.querySelector('.timer__seconds')
 
-      console.log(h)
-      console.log(m)
-      console.log(s)
-
-      const hoursHTML = document.querySelector('.timer__hours')
-      const minutesHTML = document.querySelector('.timer__minutes')
-      const secondsHTML = document.querySelector('.timer__seconds')
-
-      hoursHTML.innerHTML = h
-      minutesHTML.innerHTML = m
-      secondsHTML.innerHTML = s
-
-      timerId = setTimeout(timer, 1000)
-    }
-
-    function checkTime(i) {
-      if (i < 10) {
-        i = '0' + i
-      }
-      return i
+          hoursHTML.innerHTML = hours
+          minutesHTML.innerHTML = minutes
+          secondsHTML.innerHTML = seconds
+        }
+      }, 1000)
     }
 
     function finish() {
