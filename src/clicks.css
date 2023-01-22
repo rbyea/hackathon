@@ -10,7 +10,6 @@
 .clicks-window,
 .timer-window {
   width: 50%;
-  height: 50%;
   background: linear-gradient(90deg, #353d9d 0%, #5460f3 100%);
   box-shadow: 0 0 10px #333;
   border-radius: 40px;
@@ -101,6 +100,7 @@
   font-size: 48px;
   justify-content: center;
 }
+
 .timer__item {
   position: relative;
   min-width: 60px;
@@ -109,6 +109,7 @@
   padding-bottom: 15px;
   text-align: center;
 }
+
 .timer__item:not(:last-child)::after {
   content: ':';
   position: absolute;
