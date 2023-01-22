@@ -3,15 +3,10 @@ import '../clicks.css'
 
 export class ClicksModule extends Module {
   trigger() {
-    // Очистка всех таймеров в случае повторного вызова модуля
-    const intervalId = window.setInterval(() => {}, 10)
-    for (let i = 1; i < intervalId; i++) {
-      window.clearInterval(i)
-    }
-
     let time = 0
     let singleClicks = 0
     let doubleClicks = 0
+    let timerId = null
 
     showClicksWindow()
 
@@ -65,6 +60,7 @@ export class ClicksModule extends Module {
       })
 
       document.addEventListener('contextmenu', () => {
+        clearInterval(timerId)
         clicksWrapper.remove()
       })
     }
@@ -109,7 +105,7 @@ export class ClicksModule extends Module {
     }
 
     function setTime(value) {
-      const timeEl = document.querySelector('#time')
+      const timeEl = document.querySelector('.time')
       if (timeEl) {
         timeEl.innerHTML = `00:${value}`
       }
@@ -123,7 +119,7 @@ export class ClicksModule extends Module {
       if (current < 10) {
         current = `0${current}`
       }
-      h1Clicks.innerHTML = `Кликайте. <p id="time">00:${current}</p>`
+      h1Clicks.innerHTML = `Кликайте. <p class="time">00:${current}</p>`
 
       const counters = document.createElement('h1')
       counters.classList.add('h1-clicks', 'counters')
@@ -141,12 +137,12 @@ export class ClicksModule extends Module {
     }
 
     function timer() {
-      const timer = setInterval(() => {
+      timerId = setInterval(() => {
         if (time === 1) {
           const clicksWrapperExists = document.querySelector('.clicks-wrapper')
           if (clicksWrapperExists) {
             finish()
-            clearInterval(timer)
+            clearInterval(timerId)
           }
         } else {
           let current = --time
