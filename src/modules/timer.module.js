@@ -48,8 +48,11 @@ export class TimerModule extends Module {
       const timeInputHTML = document.querySelector('#time')
       timerStartBtn.addEventListener('click', () => {
         time = timeInputHTML.value.split(':')
-
-        showCounterScreen()
+        if (time.length !== 3) {
+          error()
+        } else {
+          showCounterScreen()
+        }
       })
 
       document.addEventListener('contextmenu', () => {
@@ -103,9 +106,11 @@ export class TimerModule extends Module {
           const minutesHTML = document.querySelector('.timer__minutes')
           const secondsHTML = document.querySelector('.timer__seconds')
 
-          hoursHTML.innerHTML = hours
-          minutesHTML.innerHTML = minutes
-          secondsHTML.innerHTML = seconds
+          if (hoursHTML && minutesHTML && secondsHTML) {
+            hoursHTML.innerHTML = hours
+            minutesHTML.innerHTML = minutes
+            secondsHTML.innerHTML = seconds
+          }
         }
       }, 1000)
     }
@@ -119,6 +124,20 @@ export class TimerModule extends Module {
       const restartButton = document.createElement('button')
       restartButton.classList.add('click-btn', 'restart-btn')
       restartButton.textContent = 'Заново'
+      timerWindow.append(restartButton)
+      document.querySelector('.restart-btn').addEventListener('click', () => {
+        showTimerWindow()
+      })
+    }
+
+    function error() {
+      const timerWindow = document.querySelector('.timer-window')
+
+      timerWindow.innerHTML = `<h1 class="h1-timer">Введите время.</h1>`
+
+      const restartButton = document.createElement('button')
+      restartButton.classList.add('click-btn', 'restart-btn')
+      restartButton.textContent = 'Ок'
       timerWindow.append(restartButton)
       document.querySelector('.restart-btn').addEventListener('click', () => {
         showTimerWindow()
