@@ -6,13 +6,13 @@ import { BackgroundModule } from './modules/background.module'
 import { ClicksModule } from './modules/clicks.module'
 import { ShapeModule } from './modules/shape.module'
 import { RandomSoundModule } from './modules/random-sound.module'
-import { CustomMsg } from "./modules/customMsg"
+import { CustomMsg } from './modules/customMsg'
 import { PizzasModule } from './modules/pizzas.module'
 import { PhotosUnsplash } from './modules/photosUnsplash.module'
 // следующие модули
 
 const backgroundModule = new BackgroundModule('background', 'Поменять цвет')
-const clicksModule = new ClicksModule('clicks', 'Считать клики (3 сек)')
+const clicksModule = new ClicksModule('clicks', 'Считать клики')
 const shapeModule = new ShapeModule('shape', 'Создать фигуру')
 const randomSoundModule = new RandomSoundModule('sound', 'Случайный звук')
 const customMsg = new CustomMsg('msg', 'Кастомное сообщение')
