@@ -1,36 +1,24 @@
-import {Module} from '@/core/module'
-//Подключаю стили для canvas
-import '../stylesShape.css'
+import {Module} from '../core/module'
 //Импортирую функции случайного числа и цвета
-import {random, getRandomColor} from '@/utils'
+import {random, getRandomColor} from '../utils'
 //Импортирую константы для настроек количества и размеров фигур
-import {SettingsShape} from '@/core/constants/settingsShape'
+import {SettingsShape} from '../core/constants/settingsShape'
 
 export class ShapeModule extends Module {
     trigger() {
 
-        //Создаю canvas и добавляю в body
-        const canvas = document.createElement('canvas');
-        document.body.append(canvas);
+        let canvas = null;
+        let ctx = null;
+        let w = 0;
+        let h = 0;
 
-        //Режим работы canvas 2d
-        const ctx = canvas.getContext('2d');
+        let callbackAnimate;
 
         //Массив с фигурами. Изначально пустой
-        const shapes = [];
+        let shapes = [];
 
         //Количество групп. Группа - это круг, треугольник и квадрат
-        const shapesNum = SettingsShape.shapesNum;
-
-        //Задаю размер canvas равный размеру окна. И сохраняю размеры в переменные
-        let w = canvas.width = window.innerWidth;
-        let h = canvas.height = window.innerHeight;
-
-        //Вешаю обработчик resize на window на случай, если размеры окна изменятся
-        window.addEventListener('resize', () => {
-            w = canvas.width = window.innerWidth;
-            h = canvas.height = window.innerHeight;
-        });
+        let shapesNum = SettingsShape.shapesNum;
 
         //Функция очищения canvas
         function clearCanvas() {
@@ -53,8 +41,6 @@ export class ShapeModule extends Module {
             this.ww = SettingsShape.ww; //Если увеличить - фигуры будут больше
             //Параметры поворота фигуры. Нужно для анимации
             this.rotate = Math.random() * Math.PI;
-            //Случайный цвет
-            this.color = getRandomColor();
 
             this.gradient = ctx.createLinearGradient(0, 0, w, h);
             this.gradient.addColorStop(0, getRandomColor());
@@ -70,7 +56,7 @@ export class ShapeModule extends Module {
                     ctx.arc(this.x, this.y, this.rx, 0, 2 * Math.PI, false);
                     //Закрываю путь. Заканчиваю процесс рисования
                     ctx.closePath();
-                    this.circleGradient = ctx.createLinearGradient(this.x, this.y, this.x+SettingsShape.rx, this.y);
+                    this.circleGradient = ctx.createLinearGradient(this.x, this.y, this.x + SettingsShape.rx, this.y);
                     this.circleGradient.addColorStop(0, getRandomColor());
                     this.circleGradient.addColorStop(1, getRandomColor());
                     //Задаю цвет
@@ -143,19 +129,363 @@ export class ShapeModule extends Module {
             }
             //Запускаю анимацию и сохраняю возвращаемое значение, чтобы потом остановить анимацию
             //Рекурсивный вызов. Картинка будет обновляться, с частотой, равной частоте экрана
-            const callbackAnimate = requestAnimationFrame(animate);
+            callbackAnimate = requestAnimationFrame(animate);
 
-            //Удаляю canvas по нажатию любой кнопки мыши
-            //Можно обойтись только canvas.remove(), но читал, что могут быть утечки памяти
-            canvas.addEventListener('mousedown', () => {
-                cancelAnimationFrame(callbackAnimate);
-                clearCanvas();
-                canvas.remove();
+        }
+
+        function createElement(element, parameters, parent) {
+            const el = document.createElement(element);
+            if (parameters.className)
+                Array.isArray(parameters.className)
+                    ? parameters.className.forEach(i => el.classList.add(i))
+                    : el.className = parameters.className;
+            if (parameters.style)
+                parameters.style.forEach(param => el.style[param.name] = param.value);
+            if (parameters.dataset)
+                el.dataset[parameters.dataset.name] = parameters.dataset.value;
+            if (parameters.type)
+                el.type = parameters.type;
+            if (parameters.id)
+                el.id = parameters.id;
+            if (parameters.htmlFor)
+                el.htmlFor = parameters.htmlFor;
+            if (parameters.text)
+                el.textContent = parameters.text;
+            if (parameters.position)
+                el.position = parameters.position;
+            Array.from(document.querySelectorAll(parent)).at(-1).append(el);
+        }
+
+        function render() {
+
+            document.body.style.padding = '0';
+            createElement('div',
+                {
+                    className: 'container',
+                    style: [{
+                        name: 'height',
+                        value: '100%'
+                    },
+                        {
+                            name: 'display',
+                            value: 'flex'
+                        },
+                        {
+                            name: 'flex-direction',
+                            value: 'column'
+                        },
+                        {
+                            name: 'box-sizing',
+                            value: 'border-box'
+                        },
+                        {
+                            name: 'backgroundColor',
+                            value: '#222'
+                        },
+                    ]
+                },
+                'body'
+            );
+            createElement('canvas',
+                {
+                    style: [{
+                        name: 'flex-grow',
+                        value: '1'
+                    }]
+                },
+                '.container')
+            createElement('div', {
+                    className: 'controlPanel',
+                    style: [
+                        {
+                            name: 'display',
+                            value: 'flex'
+                        },
+                        {
+                            name: 'flex-wrap',
+                            value: 'wrap-reverse'
+                        },
+                        {
+                            name: 'justify-content',
+                            value: 'space-around'
+                        },
+                    ]
+                },
+                '.container');
+            const label = [{
+                clasName: 'quantity',
+                text: 'Количество'
+            },
+                {
+                    clasName: 'speed',
+                    text: 'Траектория'
+                },
+                {
+                    clasName: 'size',
+                    text: 'Размер'
+                },
+                {
+                    clasName: 'rotation',
+                    text: 'Вращение'
+                }];
+            label.forEach(label => {
+                createElement('div',
+                    {
+                        className: `${label.clasName}`,
+                        style: [
+                            {
+                                name: 'color',
+                                value: '202030'
+                            },
+                            {
+                                name: 'width',
+                                value: '270px'
+                            },
+                            {
+                                name: 'display',
+                                value: 'flex'
+                            },
+                            {
+                                name: 'justify-content',
+                                value: 'space-between'
+                            },
+                            {
+                                name: 'align-items',
+                                value: 'center'
+                            },
+                            {
+                                name: 'margin',
+                                value: '10px 0'
+                            },
+                            {
+                                name: 'backgroundColor',
+                                value: '#222'
+                            },
+                            {
+                                name: 'color',
+                                value: '#E0FFFF'
+                            }
+                        ]
+                    },
+                    '.controlPanel');
+
+                createElement('button',
+                    {
+                        className: `decrement_${label.clasName}`,
+                        text: '-',
+                        style: [
+                            {
+                                name: 'font-size',
+                                value: '40px'
+                            },
+                            {
+                                name: 'border-radius',
+                                value: '50%'
+                            },
+                            {
+                                name: 'width',
+                                value: '40px'
+                            },
+                            {
+                                name: 'cursor',
+                                value: 'pointer'
+                            }
+                        ]
+                    },
+                    `.${label.clasName}`
+                );
+
+                createElement('label',
+                    {
+                        text: `${label.text}`,
+                        style: [
+                            {
+                                name: 'font-size',
+                                value: '30px'
+                            },
+                            {
+                                name: 'display',
+                                value: 'inline-block'
+                            },
+                        ]
+                    },
+                    `.${label.clasName}`);
+                createElement('button',
+                    {
+                        className: `increment_${label.clasName}`,
+                        text: '+',
+                        style: [
+                            {
+                                name: 'font-size',
+                                value: '40px'
+                            },
+                            {
+                                name: 'border-radius',
+                                value: '50%'
+                            },
+                            {
+                                name: 'width',
+                                value: '40px'
+                            },
+                            {
+                                name: 'cursor',
+                                value: 'pointer'
+                            }
+                        ]
+                    },
+                    `.${label.clasName}`
+                )
+            });
+            createElement('button',
+                {
+                    className: 'exit',
+                    text: 'Выйти',
+                    style: [
+                        {
+                            name: 'font-size',
+                            value: '30px'
+                        },
+                        {
+                            name: 'backgroundColor',
+                            value: '#222'
+                        },
+                        {
+                            name: 'color',
+                            value: '#E0FFFF'
+                        },
+                        {
+                            name: 'border',
+                            value: 'none'
+                        },
+                        {
+                            name: 'cursor',
+                            value: 'pointer'
+                        }
+                    ]
+                },
+                '.controlPanel'
+            )
+        }
+
+        function clearWindow() {
+            cancelAnimationFrame(callbackAnimate);
+            clearCanvas();
+            const container = document.querySelector('.container');
+            container.replaceChildren();
+            container.remove();
+        }
+
+        function controlPanel() {
+
+            document.querySelector('.controlPanel').addEventListener('click', event => {
+                const isButton = event.target.closest(".controlPanel");
+                if (isButton && event.target.classList.contains("exit"))
+                    clearWindow()
+
+
+                if (isButton && event.target.classList.contains("decrement_quantity")) {
+                    shapesNum--;
+                    shapes = [];
+                    if (!shapesNum) {
+                        document.querySelector('.decrement_quantity').disabled = true;
+                        clearCanvas();
+                        return;
+                    }
+                    clearWindow();
+                    init();
+                }
+
+                if (isButton && event.target.classList.contains("increment_quantity")) {
+                    if (shapesNum)
+                        document.querySelector('.decrement_quantity').disabled = false;
+                    shapesNum++;
+                    shapes = [];
+                    clearWindow();
+                    init();
+                }
+
+                if (isButton && event.target.classList.contains("decrement_speed")) {
+                    SettingsShape.vx -= 0.05;
+                    SettingsShape.vy -= 0.05;
+                    shapes = [];
+                    clearWindow();
+                    init();
+                    if (SettingsShape.vx < -1 || SettingsShape.vy < -1) {
+                        document.querySelector('.decrement_speed').disabled = true;
+
+                    }
+                    if (SettingsShape.vx < 1 || SettingsShape.vy < 1) {
+                        document.querySelector('.increment_speed').disabled = false;
+                    }
+
+                }
+
+                if (isButton && event.target.classList.contains("increment_speed")) {
+                    SettingsShape.vx += 0.05;
+                    SettingsShape.vy += 0.05;
+                    shapes = [];
+                    clearWindow();
+                    init();
+                    if (SettingsShape.vx > -1 || SettingsShape.vy > -1) {
+                        document.querySelector('.decrement_speed').disabled = false;
+
+                    }
+                    if (SettingsShape.vx > 1 || SettingsShape.vy > 1) {
+                        document.querySelector('.increment_speed').disabled = true;
+
+                    }
+
+                }
+                if (isButton && event.target.classList.contains("decrement_size")) {
+                    SettingsShape.rx -= 5;
+                    //Радиус y элипса
+                    SettingsShape.ry -= 5;
+                    //Сторона квардрата и треугольника. По умолчанию ww : random(25, 50)
+                    SettingsShape.ww -= 5
+                    shapes = [];
+                    clearWindow();
+                    init();
+                    if (!SettingsShape.rx || !SettingsShape.ry || !SettingsShape.ww) {
+                        document.querySelector('.decrement_size').disabled = true;
+                    }
+                }
+                if (isButton && event.target.classList.contains("increment_size")) {
+                    SettingsShape.rx += 5;
+                    //Радиус y элипса
+                    SettingsShape.ry += 5;
+                    //Сторона квардрата и треугольника. По умолчанию ww : random(25, 50)
+                    SettingsShape.ww += 5
+                    shapes = [];
+                    clearWindow();
+                    init();
+                    if (SettingsShape.rx && !SettingsShape.ry && !SettingsShape.ww) {
+                        document.querySelector('.decrement_size').disabled = false;
+                    }
+                }
+                if (isButton && event.target.classList.contains("decrement_rotation")) {
+                    SettingsShape.rotation -= 0.05;
+                    shapes = [];
+                    clearWindow();
+                    init();
+                }
+                if (isButton && event.target.classList.contains("increment_rotation")) {
+                    SettingsShape.rotation += 0.05;
+                    shapes = [];
+                    clearWindow();
+                    init();
+                }
 
             })
         }
 
         function init() {
+
+            render();
+            controlPanel();
+            canvas = document.querySelector('canvas');
+            ctx = canvas.getContext('2d');
+            w = canvas.width = canvas.clientWidth;
+            h = canvas.height = canvas.clientHeight;
             //Создаю элементы и пушу в массив
             for (let i = 0; i < shapesNum; i++) {
                 let shape = new CreateShapes('circle');
@@ -167,6 +497,7 @@ export class ShapeModule extends Module {
                 shape = new CreateShapes('square');
                 shapes.push(shape);
             }
+
             requestAnimationFrame(animate);
         }
 

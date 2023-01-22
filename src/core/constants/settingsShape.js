@@ -1,4 +1,4 @@
-import {random} from "@/utils";
+import {random} from "../../utils";
 
 export const SettingsShape = {
     //Количество групп. Группа - это круг, треугольник и квадрат. Теперь еще элипс. По умолчанию 10
